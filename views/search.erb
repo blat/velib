@@ -1,0 +1,18 @@
+<ul id='stations'>
+<% @stations.each do |station| %>
+    <li class='station'>
+        <div class='title'>
+            <h2 class='name'><%= station[:name] %></h2>
+            <span class='distance'><%= station[:distance]%>m</span>
+        </div>
+        <div>
+            <span class='address'><%= station[:address] %></span>
+            <a class='map' href="http://maps.google.com/?saddr=<%= @latitude %>,<%= @longitude %>&daddr=<%= station[:fullAddress] %>&dirflg=w">Plan</a>
+        </div>
+        <div>
+            <span class='available'>V&eacute;los : <span class='count'><%= station[:available] %></span></span>
+            <span class='free'>Places : <span class='count'><%= station[:free] %></span></span>
+        </div>
+    </li>
+<% end %>
+</ul>

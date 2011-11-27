@@ -1,0 +1,53 @@
+<html>
+    <head>
+        <title>Velib' for mobile</title>
+        <meta name='viewport' content='width=device-width; initial-scale=1.0; maximum-scale=1.0;' />
+        <style>
+            * { margin: 0; padding: 0; }
+            body { font-family: arial, sans-serif;  background: #161613; color: #fff; }
+            #header, #footer { padding: 10px; }
+            #header { font-family: 'Trebuchet MS', Verdana, sans-serif; }
+            #header span { color: #5ecb37; }
+            #footer, #footer a { color: #999; font-size: 11px; text-align: center; text-decoration: none; }
+            #stations div { clear: both; padding: 0 5px 5px 5px; }
+            #loading { padding: 10px; }
+            .station { display: block; margin: 10px; }
+            .title { background: #5ecb37; color: #111; margin: 5px 0; padding-top: 5px !important; }
+            .name { font-size: 20px; font-weight: bold; display: inline; }
+            .distance { float: right; display: block; margin-top: 2px; }
+            .map, .address { color: #3d3d33; font-size: 14px; }
+            .map { text-decoration: none; display: block; float: right; }
+            .free, .available { font-size: 16px; }
+            .free { float: right; }
+            .count { font-weight: bold; font-size: 18px; }
+        </style>
+        <script type='text/javascript'>
+            function initialize() {
+                if (navigator.geolocation) {
+                    navigator.geolocation.getCurrentPosition(function(position) {
+                        var xhr = new XMLHttpRequest();
+                        xhr.onreadystatechange = function() {
+                            if (xhr.readyState == 4 && xhr.status == 200) {
+                                document.getElementById('content').innerHTML = xhr.responseText;
+                            }
+                        }
+                        xhr.open('POST', '/search', true);
+                        xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+                        xhr.send('latitude=' + position.coords.latitude + '&longitude=' + position.coords.longitude);
+                    });
+                }
+            }
+        </script>
+    </head>
+    <body onload='initialize()'>
+        <div id='header'>
+            <h1>Velib<span>'</span> for mobile</h1>
+        </div>
+        <div id='content'>
+            <%= yield %>
+        </div>
+        <div id='footer'>
+            &copy; <a href='http://www.blizzart.net'>Blizz'art</a>
+        </div>
+    </body>
+</html>
